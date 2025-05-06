@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NearMART</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="UI-2.css">
+    <link rel="stylesheet" href="UI-2 Products CSS.css">
+    <style>
+
+        #categoryModal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #categoryModalContent {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-height: 90vh;                 /* Use viewport height */
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s;
+        }
+
+        #categoryModalHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        #categoryModalHeader h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        #categoryCloseButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        #categoryCloseButton:hover,
+        #categoryCloseButton:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        #categoryProductList {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #categoryProductList .product-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+        }
+
+        #categoryProductList .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #categoryProductList .product-card img {
+            width: 80%;
+            max-height: 100px;
+            object-fit: contain;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        #categoryProductList .product-card h3 {
+            font-size: 14px;
+            margin: 0 0 3px 0;
+        }
+
+        #categoryProductList .product-card p {
+            font-size: 12px;
+            margin: 0;
+            color: #555;
+        }
+
+        #categoryProductList .product-price {
+            font-weight: bold;
+            color: #007bff;
+            margin-top: 5px;
+        }
+
+        #categoryModalLoading, #categoryModalError {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        #categoryModalError {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <input type="text" class="search-bar" id="search-bar" placeholder="Search for daily products">
+        <button class="search-bar-button" id="search-bar-button"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="promo-banner">
+        <div>
+            <div class="textlogo">
+                <span><h2 class="text1">Near</h2><h2 class="text2">MART</h2></span>
+                <img src="logo.png" class="logo">
+            </div>
+            <p>"Free Shipping"</p>
+        </div>
+        
+        <header>Extra 10% Off</header>
+        <span class="promo-banner-img">
+            <img src="products.png" alt="images">
+        </span>
+    </div>
+
+    <div class="slider-container">
+        <button class="arrow" id="left-arrow"><i class="fas fa-chevron-left"></i></button>
+        <div class="categories">
+            </div>
+        <button class="arrow" id="right-arrow"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <div class="hot-sales">
+        <h3>Hot Sold</h3>
+        <div class="product">
+            <img src=" " alt="product name.." id="hot_sales_image">
+            <div class="product-info">
+                <p id="hot_sales_title"></p>
+                <p id="hot_sales_price" class="product-price"></p>
+            </div>
+            <p class="shipping">Free Shipping</p>
+        </div>
+    </div>
+
+
+    <div class="recently-viewed">
+        <h3>Recently Viewed</h3>
+        <div id="recently-viewed-product" class="product">
+            <!-- Product details will be dynamically added here -->
+        </div>
+    </div>
+
+
+    <div class="recently-viewed">
+        <h3>Daily Products</h3>
+        <div id="container2" class="container2">
+            </div>
+    </div>
+    <div class="footer">
+        <a href="UI-2.html">
+            <div class="footer-icon"><i class="fas fa-home"></i></div>
+        </a>
+        <div class="footer-icon">
+            <i class="fas fa-th-large"></i>
+            <select name="languages" id="lang">
+                <option value="dairy">Dairy products</option>
+                <option value="medical">Medical</option>
+                <option value="electronics">Electronics</option>
+                <option value="snacks">Snacks</option>
+                <option value="men's clothing ">Men's clothing</option>
+                <option value="women's clothing ">Women's clothing</option>
+                <option value="jewelery">Jewelery</option>
+            </select>
+        </div>
+        <a href="Cart.html">
+        <div class="footer-icon"><i class="fas fa-shopping-cart"></i></div>
+        </a>
+        <div class="footer-icon"><i class="fas fa-user"></i></div>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-header">
+                <h2>Products from <span id="modal-shop-name"></span></h2>
+            </div>
+            <div id="modal-loading" class="modal-loading">Loading Products...</div>
+            <div id="modal-error" class="modal-error" style="display:none;"></div>
+            <div class="product-list" id="modal-product-list">
+                </div>
+        </div>
+    </div>
+
+    <div id="categoryModal" class="modal">
+        <div id="categoryModalContent" class="modal-content">
+            <div id="categoryModalHeader">
+                <h2>Products in <span id="categoryModalTitle"></span></h2>
+                <span id="categoryCloseButton" class="close-button">&times;</span>
+            </div>
+            <div id="categoryModalLoading" class="modal-loading">Loading Products...</div>
+            <div id="categoryModalError" class="modal-error" style="display:none;"></div>
+            <div id="categoryProductList" class="product-list">
+                </div>
+        </div>
+    </div>
+
+    <script src="UI-2 productLoad.js"></script>
+    <script src="UI-2 slider.js"></script>
+    <script src="productSearch.js"></script>
+    <script src="shopFilter.js"></script>
+    <script src="categoryFilter.js"></script>        
+    <script>
+        // Retrieve recently viewed products from localStorage
+        const recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+        
+        if (recentlyViewed.length > 0) {
+            const product = recentlyViewed[0]; // Get the most recently viewed product
+            const productElement = document.getElementById("recently-viewed-product");
+
+            productElement.innerHTML = `
+                <img src="${product.image}" alt="${product.title}" id="recently-viewed-image">
+                <div class="product-info">
+                    <p id="recently-viewed-title">${product.title}</p>
+                    <p id="recently-viewed-price" class="product-price">Price: $${product.price}</p>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>

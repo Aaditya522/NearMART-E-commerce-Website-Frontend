@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+      background-color: #f8f8f8;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .header img {
+      width: 24px;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      align-items: center;
+    }
+
+    .product-image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .product-image img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid rgb(255, 255, 255);
+      border-radius: 20px;
+    }
+
+    .details {
+      text-align: center;
+    }
+
+    .details h2 {
+      margin-bottom: 5px;
+      font-size: 1.8em;
+    }
+
+    .price {
+      font-size: 1.4em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .price span {
+      font-size: 0.8em;
+      color: #888;
+      display: block;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .buttons button {
+      padding: 15px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .buttons button.add-to-cart {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .buttons button.buy-now {
+      background-color: orange;
+      color: white;
+    }
+
+    @media (min-width: 768px) {
+      .content {
+        grid-template-columns: 1fr 1fr;
+        text-align: left;
+      }
+
+      .details {
+        text-align: left;
+      }
+
+      .details h2 {
+        font-size: 2em;
+      }
+
+      .price {
+        font-size: 1.6em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a href="UI-2.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-left'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E" alt="Back"></a>
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-heart'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'%3E%3C/path%3E%3C/svg%3E" alt="Heart">
+  </div>
+
+  <div class="content">
+    <div class="product-image">
+      <img id="mainImage" src="" alt="Product Image Not Available">
+    </div>
+    <div class="details">
+      <h2></h2>
+      <div class="price"><span>Including taxes and duties</span></div>
+      <div class="description">
+        <p></p>
+      </div>
+      <div class="buttons">
+        <button class="add-to-cart">Add to cart</button>
+        <button class="buy-now">Buy Now</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get("title");
+    const image = params.get("image");
+    const price = params.get("price");
+    const description = params.get("description") || "No description available.";
+
+    document.getElementById("mainImage").src = image;
+    document.querySelector(".details h2").textContent = title;
+    document.querySelector(".price").innerHTML = `$${price} <span>Including taxes and duties</span>`;
+    document.querySelector(".description p").textContent = description;
+
+    let recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+    const product = { title, image, price, description };
+    
+    recentlyViewed.unshift(product);
+
+    recentlyViewed = recentlyViewed.slice(0, 1);
+
+    localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewed));
+  </script>
+
+</body>
+</html>

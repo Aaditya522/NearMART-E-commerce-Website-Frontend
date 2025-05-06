@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container{
+            width: 100%;
+            height:100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #6a1b9a;
+            padding: 20px;
+        }
+
+        #add-product-form{
+            width:90%;
+            padding:20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #7c5a9d;
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+        }
+
+        .input,textarea {
+            max-width: 1200px;
+            width:1200px;
+            margin:10px 2px;
+            line-height: 28px;
+            border: 2px solid transparent;
+            border-bottom-color: #ffffff;
+            padding: .2rem 0;
+            outline: none;
+            background-color: transparent;
+            color: #ffffff;
+            transition: .3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .input:focus, .input:hover {
+            outline: none;
+            padding: .2rem 1rem;
+            border-radius: 1rem;
+            border-color: #ffffff;
+        }
+
+        .input::placeholder {
+            color: #ffffff;
+        }
+
+        .input:focus::placeholder {
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        button {
+            width: 20%;
+            height: 40px;
+            margin-top: 20px;
+            background-color: #f1eded8a;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1em;
+            color: #000000;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        button:hover {
+            background:#fff;
+            border: 2px solid black;
+            border-radius: 40px;
+            font-size: 1.2em;
+            color: #000000;
+        }
+
+        .header{
+            width: 90%;
+            height:60px;
+            color: #d0d0d0;
+            font-weight: 600;
+            margin:20px;
+            padding:5px;
+            text-align:center;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .selectImagesdiv{
+            width:90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: x-large;
+            font-weight: 500;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            margin-top:20px;
+            padding:5px;
+        }
+
+        .selectImages{
+            display: flex;
+            flex-direction: row;
+            font-size: medium;
+            color: white;
+            margin: 10px 2px;
+            padding:5px;
+        }
+
+
+        #fileInput{
+            font-size: medium;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin:20px;
+            border: 2px solid rgb(249, 241, 241);
+            border-radius: 25px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div><a href="Retailers layout.html"><i style="color: #ffffff" class="fas fa-chevron-left"></i></a></div>
+            <h2>Add Product</h2>
+        </div>
+
+        <form id="add-product-form" enctype="multipart/form-data">
+            <label><input class="input" type="text" id="product-name" placeholder="Enter Product Name" required></label>
+            <label><input class="input" type="text" id="retailer_id" placeholder="Enter Your Id" required></label>
+            <label><textarea class="input" id="product-description" placeholder="Enter Description"></textarea></label>
+            <label><input class="input" type="number" id="product-price" placeholder="Enter Price" required></label>
+            <label><input class="input" type="number" id="product-quantity" placeholder="Enter Quantity" required></label>
+            <label><input class="input" type="text" id="product-category" placeholder="Enter Category" required></label>
+            <label><input class="input" type="text" id="product-sub-category" placeholder="Enter Sub-Category (optional)"></label>
+
+            <div class="selectImagesdiv">
+                <label for="fileInput" class="customButton">Select Product Images</label>
+                <div class="selectImages">
+                    <input type="file" id="fileInput1" name="image1" accept="image/*" required>
+                    <input type="file" id="fileInput2" name="image2" accept="image/*" required>
+                    <input type="file" id="fileInput3" name="image3" accept="image/*" required>
+                </div>
+            </div>
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('add-product-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('product-name').value);
+            formData.append('retailer_id', document.getElementById('retailer_id').value);
+            formData.append('description', document.getElementById('product-description').value);
+            formData.append('price', document.getElementById('product-price').value);
+            formData.append('quantity', document.getElementById('product-quantity').value);
+            formData.append('category', document.getElementById('product-category').value);
+            formData.append('subCategory', document.getElementById('product-sub-category').value);
+            formData.append('image1', document.getElementById('fileInput1').files[0]);
+            formData.append('image2', document.getElementById('fileInput2').files[0]);
+            formData.append('image3', document.getElementById('fileInput3').files[0]);
+
+            try {
+                const response = await fetch('/add-product', { // Replace '/add-product' with your server endpoint
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred.');
+            }
+        });
+    </script>
+    
+</body>
+</html>

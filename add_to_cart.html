@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Cart</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .cart-container {
+            width: 80%;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 20px;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-details h3 {
+            margin: 0 0 5px;
+        }
+
+        .item-details p {
+            margin: 0;
+            color: #666;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-controls button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+
+        .quantity-controls span {
+            width: 30px;
+            text-align: center;
+        }
+
+        .total-price {
+            text-align: right;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .checkout-button{
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .checkout-button:hover{
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <div class="cart-item">
+            <img src="placeholder-image.jpg" alt="Product 1">
+            <div class="item-details">
+                <h3>Product 1</h3>
+                <p>Description of product 1.</p>
+                <p>Price: $20.00</p>
+            </div>
+            <div class="quantity-controls">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
+            </div>
+        </div>
+
+        <div class="cart-item">
+            <img src="placeholder-image.jpg" alt="Product 2">
+            <div class="item-details">
+                <h3>Product 2</h3>
+                <p>Description of product 2.</p>
+                <p>Price: $30.00</p>
+            </div>
+            <div class="quantity-controls">
+                <button>-</button>
+                <span>2</span>
+                <button>+</button>
+            </div>
+        </div>
+
+        <div class="total-price">
+            Total: $70.00
+        </div>
+        <button class="checkout-button">Proceed to Checkout</button>
+    </div>
+    <script>
+        //Basic javascript example for quantity control. Real world applications would require more robust logic.
+        document.querySelectorAll('.quantity-controls').forEach(controls => {
+            const minusButton = controls.querySelector('button:first-child');
+            const plusButton = controls.querySelector('button:last-child');
+            const quantitySpan = controls.querySelector('span');
+
+            minusButton.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantitySpan.textContent);
+                if (currentQuantity > 1) {
+                    quantitySpan.textContent = currentQuantity - 1;
+                    //Update total price logic here
+                }
+            });
+
+            plusButton.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantitySpan.textContent);
+                quantitySpan.textContent = currentQuantity + 1;
+                //Update total price logic here
+            });
+        });
+    </script>
+</body>
+</html>
